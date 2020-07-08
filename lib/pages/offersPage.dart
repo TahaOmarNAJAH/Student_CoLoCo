@@ -45,8 +45,7 @@ class _OffersPageState extends State<OffersPage> {
     List<Card> cards = List.generate(
       count,
           (int index) => Card(
-
-            elevation: 10.0,
+            
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,9 +59,10 @@ class _OffersPageState extends State<OffersPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(snapshot[index].data['title'],style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                  Text(snapshot[index].data['title'],style: TextStyle(fontFamily: 'nunito', fontSize: 20,fontWeight: FontWeight.bold),),
+
                   SizedBox(height: 8.0),
-                  Text(snapshot[index].data['price'].toString() +'  DH/Month'),
+                  Text(snapshot[index].data['price'].toString() +'  DH/Month',style: TextStyle(color: Colors.deepOrange,fontSize: 16),),
                 ],
               ),
             ),
