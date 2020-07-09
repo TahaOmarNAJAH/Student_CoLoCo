@@ -6,6 +6,7 @@ import 'package:test_app/pages/login.dart';
 import 'package:test_app/pages/Register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test_app/pages/register_form.dart';
+import 'package:test_app/pages/offerForm.dart';
 
 class NavigationDrawer extends StatefulWidget{
   @override
@@ -63,6 +64,10 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
          ListTile(
            title: Text('Add New Offer',style: TextStyle(fontSize: 15),),
            leading: Icon(Icons.add,color: Colors.teal,),
+           onTap: (){
+             Navigator.of(context).pop();
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>OfferForm()));
+           },
          ),
          ListTile(
            title: Text('Add New Demand',style: TextStyle(fontSize: 15),),

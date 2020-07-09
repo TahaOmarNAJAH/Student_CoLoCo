@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen2 extends StatefulWidget{
   @override
@@ -111,13 +111,7 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
               SizedBox(
                 height: 20,
               ),
-              RaisedButton(
-                onPressed: (){
 
-                },
-                color: Colors.orange,
-                child: Text('choose an image '),
-              ),
               RaisedButton(
                 color: Colors.blue,
                 child: Text('Resgister Full User',style: TextStyle(color: Colors.white),),
@@ -143,5 +137,6 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
       )
     );
   }
+
 
 }

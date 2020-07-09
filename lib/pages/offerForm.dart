@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test_app/models/Offer.dart';
 import 'package:test_app/notifiers/offer_notifier.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class OfferForm extends StatefulWidget {
   @override
@@ -10,83 +15,65 @@ class OfferForm extends StatefulWidget {
 }
 
 class _OfferFormState extends State<OfferForm> {
+  File _imageFile=null;
   final GlobalKey<FormState> _formkey=GlobalKey<FormState>();
-  List _equipments=[];
-  Offer _currentOffer;
-  Widget _showImage(){
-    return Text('Image Here');
-  }
-  Widget _buildTitleField() {
-    return TextFormField(
-      decoration: InputDecoration(labelText: 'title'),
-      initialValue: _currentOffer.title,
-      keyboardType: TextInputType.text,
-      style: TextStyle(fontSize: 20),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Title is required';
-        }
-        if (value.length < 3 || value.length > 20) {
-          return 'Title must be more than 3 and less than 20';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _currentOffer.title = value;
-      },
-    );
-  }
-  Widget _buildEquipmentsField(){
-    return TextFormField(
-      decoration: InputDecoration(labelText: 'Equipments'),
-      initialValue: _currentOffer.equipments,
-      keyboardType: TextInputType.text,
-      style: TextStyle(fontSize: 20),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Equipments is required';
-        }
-        if (value.length < 3 || value.length > 20) {
-          return 'Equipments must be more than 3 and less than 20';
-        }
-        return null;
-      },
-      onSaved: (String value) {
-        _currentOffer.equipments = value;
-      },
-    );
-  }
+  bool isLoading=false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
         title: Text('Offer Form '),
         backgroundColor: Colors.orangeAccent,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(32),
-        child: Form(
-          key: _formkey,
-          autovalidate: true,
-          child: Column(
-            children: <Widget>[
-              _showImage(),
-              SizedBox(height: 16,),
-              Text('Create Offer',textAlign: TextAlign.center,style: TextStyle(fontSize: 30),),
-              SizedBox(height: 16,),
-              RaisedButton(
-                onPressed: (){
-
-                },
-                color: Colors.orangeAccent,
-                child: Text('Add Image',style: TextStyle(color: Colors.white),),
-              ),
-              _buildTitleField(),
-              _buildEquipmentsField()
-            ],
+      body:isLoading? Center(
+        child: CircularProgressIndicator(),
+      )
+      :Column(
+        children: <Widget>[
+          Center(
+            child: _imageFile== null
+            ? Text('no image choosen'):
+            Image.file(_imageFile),
           ),
-        ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
+                  onPressed: pickImage,
+                  child: Text('upload'),
+                ),
+                FlatButton(
+                  onPressed: uploadImage,
+                  child: Text('Save'),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
+  }
+  Future pickImage() async{
+    var file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile=file;
+    });
+  }
+  void uploadImage() async{
+    setState(() {
+      isLoading=true;
+    });
+    //FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://student-coloco-9aa8a.appspot.com');
+    StorageReference reference=await FirebaseStorage().ref().child("offersImages");
+    StorageUploadTask storageUploadTask = await reference.child("stat_"+DateTime.now().toIso8601String()).putFile(_imageFile);
+    StorageTaskSnapshot storageTaskSnapshot=await storageUploadTask.onComplete;
+    var dowloadURL=await storageTaskSnapshot.ref.getDownloadURL();
+    print("dowloadURL $dowloadURL");
+    setState(() {
+      isLoading=false;
+    });
+
   }
 }
