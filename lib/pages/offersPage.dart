@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:test_app/pages/offerDetails.dart';
 import 'dart:async';
 
 class OffersPage extends StatefulWidget{
@@ -26,6 +27,10 @@ class _OffersPageState extends State<OffersPage> {
     });
   }
 
+  passData(DocumentSnapshot snap){
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>OffertDetails(snapshot: snap,)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +50,18 @@ class _OffersPageState extends State<OffersPage> {
     List<Card> cards = List.generate(
       count,
           (int index) => Card(
-            
+
         clipBehavior: Clip.antiAlias,
-        child: Column(
+        child: GestureDetector(
+          onTap: (){
+            passData(snapshot[index]);
+          },
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             AspectRatio(
               aspectRatio: 18.0 / 11.0,
-              child: Image.network(snapshot[index].data['imageURL'] ,fit: BoxFit.cover,),
+              child: Image.network(snapshot[index].data['imageURL'] ,fit: BoxFit.fitWidth,),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
@@ -68,6 +77,7 @@ class _OffersPageState extends State<OffersPage> {
             ),
           ],
         ),
+        )
       ),
     );
 

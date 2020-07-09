@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
-import 'package:test_app/pages/offerDetail.dart';
+import 'package:test_app/pages/offerDetails.dart';
 
 class OffersPage extends StatefulWidget{
   @override
