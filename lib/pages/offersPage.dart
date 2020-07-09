@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test_app/pages/offerDetails.dart';
 import 'dart:async';
+import 'offerForm.dart';
 
 class OffersPage extends StatefulWidget{
   @override
@@ -37,6 +38,15 @@ class _OffersPageState extends State<OffersPage> {
       appBar: AppBar(
         title: Text('Offers'),
         backgroundColor: Colors.orangeAccent,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orangeAccent,
+        child: Icon(
+          Icons.add,color: Colors.white,
+        ),
+        onPressed: (){
+          Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>OfferForm()));
+        },
       ),
       body: GridView.count(
           crossAxisCount: 2,

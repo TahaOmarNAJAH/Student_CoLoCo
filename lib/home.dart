@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/loginScreen.dart';
 import 'navigationDrawer.dart';
 import 'offers.dart';
 import 'demands.dart';
 import 'map.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test_app/pages/login.dart';
+
 
 class Home extends StatefulWidget{
   @override
@@ -17,6 +21,17 @@ class _HomeState extends State<Home> {
     Demands(),
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+      FirebaseAuth.instance.onAuthStateChanged.listen((firebaseuser) {
+        if(firebaseuser == null){
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>Login()), (Route<dynamic> rr)=>false );
+        }
+      });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

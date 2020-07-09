@@ -4,6 +4,8 @@ import 'package:test_app/pages/offersPage.dart';
 import 'package:test_app/pages/mapPage.dart';
 import 'package:test_app/pages/login.dart';
 import 'package:test_app/pages/Register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:test_app/pages/register_form.dart';
 
 class NavigationDrawer extends StatefulWidget{
   @override
@@ -83,14 +85,18 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
            leading: Icon(Icons.info,color: Colors.teal,),
            onTap: (){
              Navigator.of(context).pop();
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>SignUp()));
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen2()));
            },
          ),
          ListTile(
-           title: Text('About',style: TextStyle(fontSize: 15),),
-           leading: Icon(Icons.info,color: Colors.teal,),
+           title: Text('Sign out',style: TextStyle(fontSize: 15),),
+           leading: Icon(Icons.exit_to_app,color: Colors.teal,),
+           onTap: (){
+            FirebaseAuth.instance.signOut().then((vallue){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+            });
+           },
          ),
-
 
        ],
      ),
