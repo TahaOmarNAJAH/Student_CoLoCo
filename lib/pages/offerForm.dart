@@ -15,65 +15,252 @@ class OfferForm extends StatefulWidget {
 }
 
 class _OfferFormState extends State<OfferForm> {
-  File _imageFile=null;
-  final GlobalKey<FormState> _formkey=GlobalKey<FormState>();
-  bool isLoading=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  final _formkey = GlobalKey<FormState>();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
+  TextEditingController _roomNumberController = TextEditingController();
+  TextEditingController _houseCapacityController = TextEditingController();
+  TextEditingController _houseAreaController = TextEditingController();
+  TextEditingController _equipmentsController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _cityController = TextEditingController();
+  File _imageFile = null;
+  bool isLoading = false;
+  @override
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
+          title: Text('Offer Form '),
+          backgroundColor: Colors.orangeAccent,
+        ),
+        body: isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Container(
+                    padding: EdgeInsets.all(30.0),
+                    child: Form(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text(
+                            'Add New Offer',
+                            style: TextStyle(
+                                fontFamily: 'nunito',
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.w700),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _titleController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Title',
+                              hintText: 'Enter Title Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _priceController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Price',
+                              hintText: 'Enter Price Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _houseCapacityController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Capacity',
+                              hintText: 'Enter Capacity Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _roomNumberController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Rooms Number',
+                              hintText: 'Enter Rooms Number Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _houseAreaController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'House Area',
+                              hintText: 'Enter The house Area Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _equipmentsController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Equipments',
+                              hintText: 'Enter The Equipments Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _cityController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'City',
+                              hintText: 'Enter City Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            maxLines: 3,
+                            controller: _addressController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Address',
+                              hintText: 'Enter Address Here',
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            maxLines: 3,
+                            controller: _descriptionController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Description',
+                              hintText: 'Enter Description Here',
+                            ),
 
-        title: Text('Offer Form '),
-        backgroundColor: Colors.orangeAccent,
-      ),
-      body:isLoading? Center(
-        child: CircularProgressIndicator(),
-      )
-      :Column(
-        children: <Widget>[
-          Center(
-            child: _imageFile== null
-            ? Text('no image choosen'):
-            Image.file(_imageFile),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                FlatButton(
-                  onPressed: pickImage,
-                  child: Text('upload'),
-                ),
-                FlatButton(
-                  onPressed: uploadImage,
-                  child: Text('Save'),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          OutlineButton(
+                            child: Text('Choose Image'),
+                            onPressed: pickImage,
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Container(
+                            child: _imageFile == null
+                                ? Text(
+                                    'No Image Selected',
+                                    textAlign: TextAlign.center,
+                                  )
+                                : Image.file(
+                                    _imageFile,
+                                    fit: BoxFit.fill,
+                                  ),
+                          ),
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          OutlineButton(
+                            onPressed: saveData,
+                            child: Text('Save'),
+                          ),
+                        ],
+                      ),
+                    ))));
   }
-  Future pickImage() async{
+
+  Future pickImage() async {
     var file = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      _imageFile=file;
+      _imageFile = file;
     });
   }
-  void uploadImage() async{
+
+  Future<String> uploadImage() async {
     setState(() {
-      isLoading=true;
+      isLoading = true;
     });
     //FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://student-coloco-9aa8a.appspot.com');
-    StorageReference reference=await FirebaseStorage().ref().child("offersImages");
-    StorageUploadTask storageUploadTask = await reference.child("stat_"+DateTime.now().toIso8601String()).putFile(_imageFile);
-    StorageTaskSnapshot storageTaskSnapshot=await storageUploadTask.onComplete;
-    var dowloadURL=await storageTaskSnapshot.ref.getDownloadURL();
-    print("dowloadURL $dowloadURL");
+    StorageReference reference =
+        await FirebaseStorage().ref().child("offersImages");
+    StorageUploadTask storageUploadTask = await reference
+        .child("stat_" + DateTime.now().toIso8601String())
+        .putFile(_imageFile);
+    StorageTaskSnapshot storageTaskSnapshot =
+        await storageUploadTask.onComplete;
+    String dowloadURL = await storageTaskSnapshot.ref.getDownloadURL();
+    //print("dowloadURL $dowloadURL");
     setState(() {
-      isLoading=false;
+      isLoading = false;
     });
-
+    return dowloadURL;
   }
+  void saveData() async{
+    String dowloadURL=await uploadImage();
+    print("dowloadURL $dowloadURL");
+    var currentUser=await FirebaseAuth.instance.currentUser();
+    print(currentUser);
+       Firestore.instance.collection('rentalOffers').document().setData({
+         'title':_titleController.text,
+         'room_number':int.parse(_roomNumberController.text),
+         'description':_descriptionController.text,
+         'imageURL':dowloadURL,
+         'house_capacity':int.parse(_houseCapacityController.text),
+         'house_area':int.parse(_houseCapacityController.text),
+         'equipments':_equipmentsController.text,
+         'accommodation_address':_addressController.text,
+         'city':_cityController.text,
+         'price':double.parse(_priceController.text),
+         'user':{
+           'uid':currentUser.uid,
+           'email':currentUser.email,
+         }
+       });
+      _titleController.clear();
+      _descriptionController.clear();
+      _cityController.clear();
+      _priceController.clear();
+      _addressController.clear();
+      _equipmentsController.clear();
+      _houseCapacityController.clear();
+      _roomNumberController.clear();
+      _houseAreaController.clear();
+      _imageFile=null;
+    }
+
+
 }
