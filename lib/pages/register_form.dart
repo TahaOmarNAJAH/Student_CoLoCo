@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:test_app/pages/login.dart';
 
-class RegisterScreen2 extends StatefulWidget{
+class RegisterScreen extends StatefulWidget{
   @override
-  _RegisterScreen2State createState() => _RegisterScreen2State();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreen2State extends State<RegisterScreen2> {
+class _RegisterScreenState extends State<RegisterScreen> {
   void initState()
   {
     super.initState();
@@ -16,25 +17,30 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
 
   final _formkey = GlobalKey<FormState>();
 
-  TextEditingController _namecontroller = TextEditingController();
+  TextEditingController _firstnamecontroller = TextEditingController();
+
+  TextEditingController _lastnamecontroller = TextEditingController();
 
   TextEditingController _emailcontroller = TextEditingController();
 
   TextEditingController _passwordcontroller = TextEditingController();
 
-  TextEditingController _countrycontroller = TextEditingController();
+  TextEditingController _phonenumbercontroller = TextEditingController();
+
 
 
   @override
   void dispose()
   {
-    _namecontroller.dispose();
+    _firstnamecontroller.dispose();
 
     _emailcontroller.dispose();
 
     _passwordcontroller.dispose();
 
-    _countrycontroller.dispose();
+    _phonenumbercontroller.dispose();
+
+    _lastnamecontroller.dispose();
 
     super.dispose();
   }
@@ -42,25 +48,75 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Register 2 Full User'),
-      ),
+       appBar: AppBar(
+          title: Text('Register'),
+          backgroundColor: Colors.orangeAccent,
+        ),
       body:SingleChildScrollView(
       child:
       Container(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(30.0),
         child: Form(
           key: _formkey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Text(
+                'Create Account',
+                style: TextStyle(
+                    fontFamily: 'nunito',
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: 20,
+              ),
               TextFormField(
-                controller: _namecontroller,
+                controller: _firstnamecontroller,
                 decoration: InputDecoration(
-                  hintText: 'name',
+                  border: OutlineInputBorder(),
+                  labelText: 'First name',
+                  hintText: 'Enter First Name Here',
                 ),
                 validator: (value){
                   if(value.isEmpty){
-                    return 'Please Fill name Input';
+                    return 'This field cannot be left blank';
+                  }
+                  // return 'Valid Name';
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _lastnamecontroller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Last name',
+                  hintText: 'Enter Last Name Here',
+                ),
+                validator: (value){
+                  if(value.isEmpty){
+                    return 'This field cannot be left blank';
+                  }
+                  // return 'Valid Name';
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                controller: _phonenumbercontroller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Phone Number',
+                  hintText: 'This field cannot be left blank',
+                ),
+                validator: (value){
+                  if(value.isEmpty){
+                    return 'This field cannot be left blank';
                   }
                   // return 'Valid Name';
                 },
@@ -72,70 +128,76 @@ class _RegisterScreen2State extends State<RegisterScreen2> {
                 keyboardType: TextInputType.emailAddress,
                 controller: _emailcontroller,
                 decoration: InputDecoration(
-                  hintText: 'Email',
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  hintText: 'Enter Email Here',
                 ),
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Fill Email Input';
-                  }
+                validator: (item) {
+                  return item.contains("@")
+                      ? null
+                      : "Enter valid Email";
                 },
               ),
               SizedBox(
                 height: 20,
               ),
               TextFormField(
+                obscureText: true,
                 controller: _passwordcontroller,
                 decoration: InputDecoration(
-                  hintText: 'Password',
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  hintText: 'Enter Password Here',
                 ),
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Fill Password Input';
-                  }
+                validator: (item) {
+                  return item.length > 6
+                      ? null
+                      : "Password must be 6 characters";
                 },
               ),
-              SizedBox(
-                height: 20,
-              ),
-              TextFormField(
-                controller: _countrycontroller,
-                decoration: InputDecoration(
-                  hintText: 'Country',
-                ),
-                validator: (value){
-                  if(value.isEmpty){
-                    return 'Please Fill Country Input';
-                  }
-                },
-              ),
+
               SizedBox(
                 height: 20,
               ),
 
-              RaisedButton(
-                color: Colors.blue,
-                child: Text('Resgister Full User',style: TextStyle(color: Colors.white),),
-                onPressed: () async{
-                  if(_formkey.currentState.validate()){
-                    var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
-                    if(result != null)
-                    {
-                      Firestore.instance.collection('users').document(result.user.uid).setData({
-                        'name':_namecontroller.text,
-                        'country':_countrycontroller.text
-                      });
-                    }else{
-                      print('please try later');
-                    }
-                  }
-                },
-              )
+              Container(
+                height: 50,
+                child: OutlineButton(
+                  onPressed: saveData,
+                  child: Text('Register'),
+                ),
+              ),
             ],
           ),
         ),
       ),
       )
     );
+  }
+  void saveData() async{
+    if(_formkey.currentState.validate()){
+      var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
+      if(result != null)
+      {
+        Firestore.instance.collection('users').document(result.user.uid).setData({
+          'firstname':_firstnamecontroller.text,
+          'lastname':_lastnamecontroller.text,
+          'phone_number':_phonenumbercontroller.text,
+        });
+
+        _phonenumbercontroller.clear();
+        _lastnamecontroller.clear();
+        _firstnamecontroller.clear();
+        _emailcontroller.clear();
+        _passwordcontroller.clear();
+
+        Fluttertoast.showToast(msg: "User Created successfully").then((value){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+        });
+      }else{
+        print('please try later');
+      }
+    }
   }
 
 

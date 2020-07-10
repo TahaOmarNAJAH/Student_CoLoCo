@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:test_app/pages/Register.dart';
+import 'package:test_app/pages/register_form.dart';
 import 'package:test_app/home.dart';
 class Login extends StatefulWidget{
   @override
   _LoginState createState() => _LoginState();
 }
 class _LoginState extends State<Login> {
-  String _email, _password;
-
+  TextEditingController _emailcontroller = TextEditingController();
+  TextEditingController _passwordcontroller = TextEditingController();
   var _formkey = GlobalKey<FormState>();
-
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -22,28 +21,32 @@ class _LoginState extends State<Login> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),))
-          : Container(
-        margin: EdgeInsets.all(16),
-        alignment: Alignment.center,
-        child: SingleChildScrollView(
+          :  SingleChildScrollView(
+          child:Container(
+            padding: EdgeInsets.all(30.0),
           child:Form(
             key: _formkey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                Text(
+                  'Sign In',
+                  style: TextStyle(
+                      fontFamily: 'nunito',
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w700),
+                  textAlign: TextAlign.center,
+                ),
                 SizedBox(
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _emailcontroller,
                   keyboardType: TextInputType.emailAddress,
                   validator: (item) {
                     return item.contains("@")
                         ? null
                         : "Enter valid Email";
-                  },
-                  onChanged: (item) {
-                    setState(() {
-                      _email = item;
-                    });
                   },
                   decoration: InputDecoration(
                       hintText: "Enter Email",
@@ -54,17 +57,13 @@ class _LoginState extends State<Login> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _passwordcontroller,
                   obscureText: true,
                   keyboardType: TextInputType.text,
                   validator: (item) {
                     return item.length > 6
                         ? null
                         : "Password must be 6 characters";
-                  },
-                  onChanged: (item) {
-                    setState(() {
-                      _password = item;
-                    });
                   },
                   decoration: InputDecoration(
                       hintText: "Enter Password",
@@ -76,26 +75,24 @@ class _LoginState extends State<Login> {
                 ),
                 Container(
                   height: 50,
-                  width: double.infinity,
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.orangeAccent,
-                    onPressed: () {
-                      login();
-                    },
-                    child: Text('Login',style: TextStyle(fontSize: 20),),
+                  child: OutlineButton(
+                    onPressed: login,
+                    child: Text('Login'),
                   ),
                 ),
+
                 SizedBox(
                   height: 20,
                 ),
                 Container(child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_) =>  Registration()));
+                      Navigator.push(context, MaterialPageRoute(builder: (_) =>  RegisterScreen()));
                     },
                     child: Text("Register here")),alignment: Alignment.centerRight,)
               ],
             )),
+
+
         ),
       ),
     );
@@ -107,7 +104,7 @@ class _LoginState extends State<Login> {
         isLoading = true;
       });
       FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password)
+          .signInWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text)
           .then((user) {
         // sign up
         setState(() {
@@ -115,7 +112,6 @@ class _LoginState extends State<Login> {
         });
 
         Fluttertoast.showToast(msg: "Welcome");
-
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => Home()),
@@ -124,7 +120,7 @@ class _LoginState extends State<Login> {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg: "error " + onError.toString());
+        Fluttertoast.showToast(msg: "Incorret Email or Password",timeInSecForIosWeb: 8);
       });
     }
   }

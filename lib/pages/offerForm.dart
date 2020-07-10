@@ -15,11 +15,7 @@ class OfferForm extends StatefulWidget {
 }
 
 class _OfferFormState extends State<OfferForm> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
+
   final _formkey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
@@ -32,8 +28,21 @@ class _OfferFormState extends State<OfferForm> {
   TextEditingController _cityController = TextEditingController();
   File _imageFile = null;
   bool isLoading = false;
-  @override
 
+  @override
+  void dispose()
+  {
+    _titleController.dispose();
+    _priceController.dispose();
+    _addressController.dispose();
+    _roomNumberController.dispose();
+    _houseCapacityController.dispose();
+    _houseAreaController.dispose();
+    _equipmentsController.dispose();
+    _descriptionController.dispose();
+    _cityController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +80,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Title',
                               hintText: 'Enter Title Here',
                             ),
+                            validator: (item){
+                              return item.isNotEmpty
+                                  ? null
+                                  : "This field cannot be empty";
+                            },
+
                           ),
                           SizedBox(
                             height: 20,
@@ -83,6 +98,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Price',
                               hintText: 'Enter Price Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -95,6 +116,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Capacity',
                               hintText: 'Enter Capacity Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -107,6 +134,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Rooms Number',
                               hintText: 'Enter Rooms Number Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -119,6 +152,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'House Area',
                               hintText: 'Enter The house Area Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -130,6 +169,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Equipments',
                               hintText: 'Enter The Equipments Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -141,6 +186,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'City',
                               hintText: 'Enter City Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -153,6 +204,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Address',
                               hintText: 'Enter Address Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -165,6 +222,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Description',
                               hintText: 'Enter Description Here',
                             ),
+                            validator: (value){
+                              if(value.isEmpty){
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
 
                           ),
                           SizedBox(

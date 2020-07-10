@@ -12,6 +12,7 @@ class Offer{
   String accommodationAddress;
   int roomNumber;
   String equipments;
+  String location;
   Timestamp createdAt;
   Timestamp updatedAt;
 
@@ -29,6 +30,7 @@ class Offer{
       this.equipments,
       this.createdAt,
       this.updatedAt,
+      this.location,
       );
 
 

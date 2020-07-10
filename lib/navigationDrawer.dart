@@ -95,7 +95,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
            leading: Icon(Icons.info,color: Colors.teal,),
            onTap: (){
              Navigator.of(context).pop();
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen2()));
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
            },
          ),
          ListTile(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'package:test_app/pages/demandDetails.dart';
 
 class DemandsPage extends StatefulWidget{
   @override
@@ -22,6 +23,10 @@ class _DemandsPageState extends State<DemandsPage> {
       });
     });
   }
+  passData(DocumentSnapshot snap){
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>DemandDetails(snapshot: snap,)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +49,11 @@ class _DemandsPageState extends State<DemandsPage> {
         padding: const EdgeInsets.all(8.0),
         child: Container(
           height: 150,
-          child: Card(
+          child: GestureDetector(
+            onTap: (){
+              passData(snapshot[index]);
+            },
+            child:Card(
             elevation: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -64,6 +73,7 @@ class _DemandsPageState extends State<DemandsPage> {
               ),
             ),
           ),
+          )
         ),
       )
     );
