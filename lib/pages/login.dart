@@ -111,7 +111,7 @@ class _LoginState extends State<Login> {
           isLoading = false;
         });
 
-        Fluttertoast.showToast(msg: "Welcome");
+        Fluttertoast.showToast(msg: "Welcome",backgroundColor: Colors.orange,textColor:Colors.white);
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (_) => Home()),
@@ -120,7 +120,7 @@ class _LoginState extends State<Login> {
         setState(() {
           isLoading = false;
         });
-        Fluttertoast.showToast(msg: "Incorret Email or Password",timeInSecForIosWeb: 8);
+        Fluttertoast.showToast(msg: "Incorret Email or Password",backgroundColor: Colors.orange,textColor:Colors.white,timeInSecForIosWeb: 8);
       });
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test_app/pages/offerDetails.dart';
+import 'package:test_app/pages/offer_details.dart';
 import 'dart:async';
 import 'offerForm.dart';
 
@@ -29,7 +30,7 @@ class _OffersPageState extends State<OffersPage> {
   }
 
   passData(DocumentSnapshot snap){
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>OffertDetails(snapshot: snap,)));
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>OfferDetailsPage(snapshot: snap,)));
   }
 
   @override

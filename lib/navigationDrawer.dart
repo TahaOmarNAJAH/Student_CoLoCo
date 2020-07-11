@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test_app/pages/register_form.dart';
 import 'package:test_app/pages/demand_form.dart';
 import 'package:test_app/pages/offerForm.dart';
+import 'package:test_app/pages/offer_details.dart';
 
 class NavigationDrawer extends StatefulWidget{
   @override

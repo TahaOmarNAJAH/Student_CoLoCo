@@ -191,11 +191,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _emailcontroller.clear();
         _passwordcontroller.clear();
 
-        Fluttertoast.showToast(msg: "User Created successfully").then((value){
+        Fluttertoast.showToast(msg: "User Created successfully",backgroundColor: Colors.orange,textColor:Colors.white).then((value){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
         });
       }else{
-        print('please try later');
+        Fluttertoast.showToast(msg: "please try later",backgroundColor: Colors.orange,textColor:Colors.white);
       }
     }
   }

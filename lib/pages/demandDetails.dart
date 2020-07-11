@@ -14,9 +14,13 @@ class _DemandDetailsState extends State<DemandDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Demand '),
+        backgroundColor: Colors.orangeAccent,
+      ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(15.0),
           child: Card(
             elevation: 1,
             child: Padding(
@@ -31,10 +35,47 @@ class _DemandDetailsState extends State<DemandDetails> {
                         fontWeight: FontWeight.w700),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(widget.snapshot.data['description'],style: TextStyle(fontSize: 18),)
+
+                  const SizedBox(height: 30.0),
+                  Text("Max budget".toUpperCase(), style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 10.0),
+                  Text(widget.snapshot.data['max_budget'].toString()+" DH", textAlign: TextAlign.justify, style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 30.0),
+                  Text("Contact".toUpperCase(), style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 10.0),
+                  Text(widget.snapshot.data['user']['email'], textAlign: TextAlign.justify, style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 30.0),
+                  Text("City".toUpperCase(), style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 10.0),
+                  Text(widget.snapshot.data['city'], textAlign: TextAlign.justify, style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 30.0),
+                  Text("Description".toUpperCase(), style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0
+                  ),),
+                  const SizedBox(height: 10.0),
+                  Text(widget.snapshot.data['description'], textAlign: TextAlign.justify, style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.0
+                  ),),
                 ],
               ),
             ),

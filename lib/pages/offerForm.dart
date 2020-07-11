@@ -2,12 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test_app/models/Offer.dart';
-import 'package:test_app/notifiers/offer_notifier.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:test_app/pages/offersPage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class OfferForm extends StatefulWidget {
   @override
@@ -15,7 +14,6 @@ class OfferForm extends StatefulWidget {
 }
 
 class _OfferFormState extends State<OfferForm> {
-
   final _formkey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
@@ -28,10 +26,10 @@ class _OfferFormState extends State<OfferForm> {
   TextEditingController _cityController = TextEditingController();
   File _imageFile = null;
   bool isLoading = false;
+  var _chosenValue = 'Bénimellal';
 
   @override
-  void dispose()
-  {
+  void dispose() {
     _titleController.dispose();
     _priceController.dispose();
     _addressController.dispose();
@@ -59,6 +57,7 @@ class _OfferFormState extends State<OfferForm> {
                 child: Container(
                     padding: EdgeInsets.all(30.0),
                     child: Form(
+                      key: _formkey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -80,12 +79,11 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Title',
                               hintText: 'Enter Title Here',
                             ),
-                            validator: (item){
+                            validator: (item) {
                               return item.isNotEmpty
                                   ? null
                                   : "This field cannot be empty";
                             },
-
                           ),
                           SizedBox(
                             height: 20,
@@ -98,8 +96,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Price',
                               hintText: 'Enter Price Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -116,8 +114,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Capacity',
                               hintText: 'Enter Capacity Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -134,8 +132,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Rooms Number',
                               hintText: 'Enter Rooms Number Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -152,8 +150,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'House Area',
                               hintText: 'Enter The house Area Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -169,8 +167,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Equipments',
                               hintText: 'Enter The Equipments Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -179,18 +177,30 @@ class _OfferFormState extends State<OfferForm> {
                           SizedBox(
                             height: 20,
                           ),
-                          TextFormField(
-                            controller: _cityController,
+                          DropdownButtonFormField(
+                            value: _chosenValue,
+                            icon: Icon(Icons.arrow_downward),
+                            iconSize: 24,
+                            elevation: 16,
                             decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: 'City',
-                              hintText: 'Enter City Here',
+                              labelText: "Select City",
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
-                                return 'This field cannot be left blank';
-                              }
-                              // return 'Valid Name';
+                            items: <String>[
+                              'Bénimellal',
+                              'Marrakesh',
+                              'Rabat',
+                              'Tanger'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              _chosenValue = value;
                             },
                           ),
                           SizedBox(
@@ -204,8 +214,8 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Address',
                               hintText: 'Enter Address Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
@@ -222,13 +232,12 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Description',
                               hintText: 'Enter Description Here',
                             ),
-                            validator: (value){
-                              if(value.isEmpty){
+                            validator: (value) {
+                              if (value.isEmpty) {
                                 return 'This field cannot be left blank';
                               }
                               // return 'Valid Name';
                             },
-
                           ),
                           SizedBox(
                             height: 20,
@@ -292,27 +301,29 @@ class _OfferFormState extends State<OfferForm> {
     });
     return dowloadURL;
   }
-  void saveData() async{
-    String dowloadURL=await uploadImage();
-    print("dowloadURL $dowloadURL");
-    var currentUser=await FirebaseAuth.instance.currentUser();
-    print(currentUser);
-       Firestore.instance.collection('rentalOffers').document().setData({
-         'title':_titleController.text,
-         'room_number':int.parse(_roomNumberController.text),
-         'description':_descriptionController.text,
-         'imageURL':dowloadURL,
-         'house_capacity':int.parse(_houseCapacityController.text),
-         'house_area':int.parse(_houseCapacityController.text),
-         'equipments':_equipmentsController.text,
-         'accommodation_address':_addressController.text,
-         'city':_cityController.text,
-         'price':double.parse(_priceController.text),
-         'user':{
-           'uid':currentUser.uid,
-           'email':currentUser.email,
-         }
-       });
+
+  void saveData() async {
+    if (_formkey.currentState.validate()) {
+      String dowloadURL = await uploadImage();
+      print("dowloadURL $dowloadURL");
+      var currentUser = await FirebaseAuth.instance.currentUser();
+      print(currentUser);
+      Firestore.instance.collection('rentalOffers').document().setData({
+        'title': _titleController.text,
+        'room_number': int.parse(_roomNumberController.text),
+        'description': _descriptionController.text,
+        'imageURL': dowloadURL,
+        'house_capacity': int.parse(_houseCapacityController.text),
+        'house_area': int.parse(_houseCapacityController.text),
+        'equipments': _equipmentsController.text,
+        'accommodation_address': _addressController.text,
+        'city': _chosenValue,
+        'price': double.parse(_priceController.text),
+        'user': {
+          'uid': currentUser.uid,
+          'email': currentUser.email,
+        }
+      });
       _titleController.clear();
       _descriptionController.clear();
       _cityController.clear();
@@ -322,8 +333,20 @@ class _OfferFormState extends State<OfferForm> {
       _houseCapacityController.clear();
       _roomNumberController.clear();
       _houseAreaController.clear();
-      _imageFile=null;
+      _imageFile = null;
+      Fluttertoast.showToast(
+              msg: "User Created successfully",
+              backgroundColor: Colors.orange,
+              textColor: Colors.white)
+          .then((value) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => OffersPage()));
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "Please try Laster",
+          backgroundColor: Colors.orange,
+          textColor: Colors.white);
     }
-
-
+  }
 }

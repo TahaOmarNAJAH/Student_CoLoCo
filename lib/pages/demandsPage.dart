@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:test_app/pages/demandDetails.dart';
+import 'package:test_app/pages/demand_form.dart';
 
 class DemandsPage extends StatefulWidget{
   @override
@@ -31,8 +32,17 @@ class _DemandsPageState extends State<DemandsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Demands Page'),
+        title: Text('Demands'),
         backgroundColor: Colors.orangeAccent,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.orangeAccent,
+        child: Icon(
+          Icons.add,color: Colors.white,
+        ),
+        onPressed: (){
+          Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>DemandForm()));
+        },
       ),
       body:Container(
         child: ListView.builder(
@@ -53,7 +63,8 @@ class _DemandsPageState extends State<DemandsPage> {
             onTap: (){
               passData(snapshot[index]);
             },
-            child:Card(
+            child:
+            Card(
             elevation: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -67,8 +78,17 @@ class _DemandsPageState extends State<DemandsPage> {
                       Icon(Icons.more_horiz,size: 20.0,color: Colors.black,)
                     ],
                   ),
-                  Text(snapshot[index].data['description'],style: TextStyle(fontSize: 18,fontFamily: 'nunito'),),
-                  Text(snapshot[index].data['max_budget'].toString(),style: TextStyle(fontSize: 15),),
+                  Text(snapshot[index].data['description'],style: TextStyle(fontSize: 15,fontFamily: 'nunito'),maxLines: 2,),
+                  const SizedBox(height: 5.0),
+                  Text("Max Budget :".toUpperCase(), style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14.0
+                  )),
+                  Text(snapshot[index].data['max_budget'].toString()+"DH", style: TextStyle(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18
+                  ),),
                 ],
               ),
             ),

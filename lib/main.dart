@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_app/notifiers/auth_notifier.dart';
 import 'loginScreen.dart';
 import 'home.dart';
 import 'package:test_app/pages/login.dart';

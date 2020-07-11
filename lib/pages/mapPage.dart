@@ -14,11 +14,8 @@ class _MapPageState extends State<MapPage> {
   StreamSubscription<QuerySnapshot>subscription;
   List<DocumentSnapshot>snapshot;
   CollectionReference collectionReference=Firestore.instance.collection("rentalOffers");
-  List<Offer> offerList=[];
-
   List<Marker> markers=[];
-  var offers =[];
-  var currentLocation;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -27,7 +24,6 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future createMarkers () async{
-    offers =[];
     Firestore.instance.collection('rentalOffers').getDocuments().then((docs){
       if(docs.documents.isNotEmpty){
         for(int i=0;i<docs.documents.length;++i) {
@@ -37,9 +33,8 @@ class _MapPageState extends State<MapPage> {
               markers.add(Marker(
                 markerId: MarkerId(docs.documents[i].data['title']),
                 draggable: false,
-                infoWindow: InfoWindow(title:docs.documents[i].data['title'] ,snippet: docs.documents[i].data['price'].toString()),
+                infoWindow: InfoWindow(title:docs.documents[i].data['title'] ,snippet: docs.documents[i].data['price'].toString()+"DH" ),
                 position: LatLng(docs.documents[i].data['location'].latitude,docs.documents[i].data['location'].longitude),
-
               ));
             });
 
@@ -50,11 +45,7 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-   getOffers() async{
-    var firestore=Firestore.instance;
-    QuerySnapshot qn = await firestore.collection("rentalOffers").getDocuments();
-    print("leeeee" +qn.documents.length.toString());
-  }
+
 
   @override
   Widget build(BuildContext context) {
