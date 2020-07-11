@@ -56,6 +56,10 @@ class _DemandDetailsState extends State<DemandDetails> {
                       fontWeight: FontWeight.w300,
                       fontSize: 14.0
                   ),),
+                  Text(widget.snapshot.data['phone'].toString(), textAlign: TextAlign.justify, style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14.0
+                  ),),
                   const SizedBox(height: 30.0),
                   Text("City".toUpperCase(), style: TextStyle(
                       fontWeight: FontWeight.w600,

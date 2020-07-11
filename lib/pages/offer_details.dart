@@ -96,6 +96,10 @@ class _OfferDetailsPageState extends State<OfferDetailsPage> {
                           fontWeight: FontWeight.w300,
                           fontSize: 14.0
                       ),),
+                      Text(widget.snapshot.data['phone'].toString(), textAlign: TextAlign.justify, style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 14.0
+                      ),),
                       const SizedBox(height: 30.0),
                       Text("Equipments".toUpperCase(), style: TextStyle(
                           fontWeight: FontWeight.w600,

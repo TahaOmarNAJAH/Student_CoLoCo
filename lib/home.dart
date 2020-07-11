@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_app/loginScreen.dart';
 import 'navigationDrawer.dart';
 import 'offers.dart';
 import 'demands.dart';
@@ -36,7 +35,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Home"),
+        title: new Text("Student CoLoCo"),
         backgroundColor: Colors.orangeAccent,
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.search),

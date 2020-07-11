@@ -3,12 +3,10 @@ import 'package:test_app/pages/demandsPage.dart';
 import 'package:test_app/pages/offersPage.dart';
 import 'package:test_app/pages/mapPage.dart';
 import 'package:test_app/pages/login.dart';
-import 'package:test_app/pages/Register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:test_app/pages/register_form.dart';
 import 'package:test_app/pages/demand_form.dart';
 import 'package:test_app/pages/offerForm.dart';
-import 'package:test_app/pages/offer_details.dart';
+import 'home.dart';
 
 class NavigationDrawer extends StatefulWidget{
   @override
@@ -37,6 +35,14 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
                      Colors.orangeAccent
                    ])
            ),
+         ),
+         ListTile(
+           title: Text('Home',style: TextStyle(fontSize: 15),),
+           leading: Icon(Icons.home,color: Colors.teal,),
+           onTap: (){
+             Navigator.of(context).pop();
+             Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+           },
          ),
          ListTile(
            title: Text('Offers',style: TextStyle(fontSize: 15),),
@@ -79,26 +85,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
              Navigator.push(context, MaterialPageRoute(builder: (context)=>DemandForm()));
            },
          ),
-         ListTile(
-           title: Text('Map',style: TextStyle(fontSize: 15),),
-           leading: Icon(Icons.map,color: Colors.teal,),
-         ),
-         ListTile(
-           title: Text('login',style: TextStyle(fontSize: 15),),
-           leading: Icon(Icons.info,color: Colors.teal,),
-           onTap: (){
-             Navigator.of(context).pop();
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
-           },
-         ),
-         ListTile(
-           title: Text('Register',style: TextStyle(fontSize: 15),),
-           leading: Icon(Icons.info,color: Colors.teal,),
-           onTap: (){
-             Navigator.of(context).pop();
-             Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterScreen()));
-           },
-         ),
+
          ListTile(
            title: Text('Sign out',style: TextStyle(fontSize: 15),),
            leading: Icon(Icons.exit_to_app,color: Colors.teal,),

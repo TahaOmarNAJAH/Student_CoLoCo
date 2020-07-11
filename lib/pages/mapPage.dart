@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
+import 'package:test_app/pages/offer_details.dart';
 import 'package:test_app/models/Offer.dart';
 
 
@@ -20,6 +21,11 @@ class _MapPageState extends State<MapPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    subscription=collectionReference.snapshots().listen((datasnapshot) {
+      setState(() {
+        snapshot=datasnapshot.documents;
+      });
+    });
     createMarkers();
   }
 
@@ -33,8 +39,11 @@ class _MapPageState extends State<MapPage> {
               markers.add(Marker(
                 markerId: MarkerId(docs.documents[i].data['title']),
                 draggable: false,
-                infoWindow: InfoWindow(title:docs.documents[i].data['title'] ,snippet: docs.documents[i].data['price'].toString()+"DH" ),
+                infoWindow: InfoWindow(title:docs.documents[i].data['title'] ,snippet: docs.documents[i].data['price'].toString()+"DH" , onTap:(){
+                  passData(snapshot[i]);
+                }),
                 position: LatLng(docs.documents[i].data['location'].latitude,docs.documents[i].data['location'].longitude),
+
               ));
             });
 
@@ -44,8 +53,9 @@ class _MapPageState extends State<MapPage> {
       }
     });
   }
-
-
+  passData(DocumentSnapshot snap){
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context)=>OfferDetailsPage(snapshot: snap,)));
+  }
 
   @override
   Widget build(BuildContext context) {

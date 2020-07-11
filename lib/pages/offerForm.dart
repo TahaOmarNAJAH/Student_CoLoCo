@@ -24,6 +24,10 @@ class _OfferFormState extends State<OfferForm> {
   TextEditingController _equipmentsController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
   TextEditingController _cityController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _latitudeController = TextEditingController();
+  TextEditingController _longitudeController = TextEditingController();
+
   File _imageFile = null;
   bool isLoading = false;
   var _chosenValue = 'Bénimellal';
@@ -39,6 +43,9 @@ class _OfferFormState extends State<OfferForm> {
     _equipmentsController.dispose();
     _descriptionController.dispose();
     _cityController.dispose();
+    _phoneController.dispose();
+    _latitudeController.dispose();
+    _longitudeController.dispose();
     super.dispose();
   }
 
@@ -51,7 +58,7 @@ class _OfferFormState extends State<OfferForm> {
         ),
         body: isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),),
               )
             : SingleChildScrollView(
                 child: Container(
@@ -132,12 +139,6 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'Rooms Number',
                               hintText: 'Enter Rooms Number Here',
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This field cannot be left blank';
-                              }
-                              // return 'Valid Name';
-                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -150,12 +151,6 @@ class _OfferFormState extends State<OfferForm> {
                               labelText: 'House Area',
                               hintText: 'Enter The house Area Here',
                             ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'This field cannot be left blank';
-                              }
-                              // return 'Valid Name';
-                            },
                           ),
                           SizedBox(
                             height: 20,
@@ -207,6 +202,24 @@ class _OfferFormState extends State<OfferForm> {
                             height: 20,
                           ),
                           TextFormField(
+                            controller: _phoneController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'Phone Number',
+                              hintText: 'Enter Phone Here',
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
                             maxLines: 3,
                             controller: _addressController,
                             decoration: InputDecoration(
@@ -231,6 +244,42 @@ class _OfferFormState extends State<OfferForm> {
                               border: OutlineInputBorder(),
                               labelText: 'Description',
                               hintText: 'Enter Description Here',
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _latitudeController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'latitude',
+                              hintText: 'Enter latitude Here',
+                            ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'This field cannot be left blank';
+                              }
+                              // return 'Valid Name';
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: _longitudeController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: 'longitude',
+                              hintText: 'Enter longitude Here',
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
@@ -316,9 +365,11 @@ class _OfferFormState extends State<OfferForm> {
         'house_capacity': int.parse(_houseCapacityController.text),
         'house_area': int.parse(_houseCapacityController.text),
         'equipments': _equipmentsController.text,
+        'phone':int.parse(_phoneController.text),
         'accommodation_address': _addressController.text,
         'city': _chosenValue,
         'price': double.parse(_priceController.text),
+        'location':new GeoPoint(double.parse(_latitudeController.text), double.parse(_longitudeController.text)),
         'user': {
           'uid': currentUser.uid,
           'email': currentUser.email,
@@ -333,6 +384,9 @@ class _OfferFormState extends State<OfferForm> {
       _houseCapacityController.clear();
       _roomNumberController.clear();
       _houseAreaController.clear();
+      _phoneController.clear();
+      _longitudeController.clear();
+      _latitudeController.clear();
       _imageFile = null;
       Fluttertoast.showToast(
               msg: "User Created successfully",

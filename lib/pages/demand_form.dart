@@ -20,6 +20,8 @@ class _DemandFormState extends State<DemandForm> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _maxBudgetController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
   var _chosenValue='Bénimellal';
   final _formkey = GlobalKey<FormState>();
 
@@ -110,6 +112,24 @@ class _DemandFormState extends State<DemandForm> {
                   height: 20,
                 ),
                 TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Phone Number',
+                    hintText: 'Enter Phone Here',
+                  ),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'This field cannot be left blank';
+                    }
+                    // return 'Valid Name';
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
                   maxLines: 5,
                   controller: _descriptionController,
                   decoration: InputDecoration(
@@ -145,6 +165,7 @@ class _DemandFormState extends State<DemandForm> {
       Firestore.instance.collection('retalDemandes').document().setData({
         'title': _titleController.text,
         'max_budget': double.parse(_maxBudgetController.text),
+        'phone': double.parse(_phoneController.text),
         'description': _descriptionController.text,
         'city': _chosenValue,
         'user': {
@@ -156,7 +177,7 @@ class _DemandFormState extends State<DemandForm> {
       _maxBudgetController.clear();
       _descriptionController.clear();
       _titleController.clear();
-
+      _phoneController.clear();
       Fluttertoast.showToast(msg: "Demand Created successfully",backgroundColor: Colors.orange,textColor:Colors.white ).then((value) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => DemandsPage()));

@@ -24,9 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController _emailcontroller = TextEditingController();
 
   TextEditingController _passwordcontroller = TextEditingController();
-
   TextEditingController _phonenumbercontroller = TextEditingController();
-
 
 
   @override

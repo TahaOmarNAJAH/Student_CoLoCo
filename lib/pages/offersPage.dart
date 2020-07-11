@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:test_app/pages/offerDetails.dart';
 import 'package:test_app/pages/offer_details.dart';
 import 'dart:async';
 import 'offerForm.dart';
@@ -79,10 +78,18 @@ class _OffersPageState extends State<OffersPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(snapshot[index].data['title'],style: TextStyle(fontFamily: 'nunito', fontSize: 20,fontWeight: FontWeight.bold),),
+                  Text(snapshot[index].data['title'],style: TextStyle(fontFamily: 'nunito', fontSize: 18,fontWeight: FontWeight.bold),),
 
-                  SizedBox(height: 8.0),
                   Text(snapshot[index].data['price'].toString() +'  DH/Month',style: TextStyle(color: Colors.deepOrange,fontSize: 16),),
+                  SizedBox(height: 6.0),
+                  Text.rich(TextSpan(children: [
+                    WidgetSpan(
+                        child: Icon(Icons.location_on, size: 16.0, color: Colors.grey,)
+                    ),
+                    TextSpan(
+                        text: snapshot[index].data['city']
+                    )
+                  ]), style: TextStyle(color: Colors.grey, fontSize: 15.0),)
                 ],
               ),
             ),
